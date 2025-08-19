@@ -23,6 +23,15 @@
     table{width:100%;border-collapse:collapse;font-size:14px}
     th,td{border:1px solid var(--border);padding:8px;text-align:left}
 
+    /* Roster */
+    .roster-grid{display:grid;gap:14px}
+    @media(min-width:760px){.roster-grid{grid-template-columns:repeat(3,1fr)}}
+    .card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:14px}
+    .card h3{margin:0 0 8px 0}
+    .card ul{list-style:none;padding:0;margin:0}
+    .card li{padding:6px 0;border-top:1px dashed var(--border)}
+    .card li:first-child{border-top:none}
+
     /* Galeria */
     .gallery{display:grid;gap:14px}
     @media(min-width:760px){.gallery{grid-template-columns:repeat(3,1fr)}}
@@ -93,6 +102,15 @@
   <section id="fotos">
     <h2>Fotos do time</h2>
     <div class="gallery" id="gallery"></div>
+  </section>
+
+  <!-- CATEGORIAS E ELENCO -->
+  <section id="categorias">
+    <h2>Categorias e elenco</h2>
+    <div style="margin:8px 0 14px">
+      <input id="buscar" placeholder="Buscar atleta..." style="width:100%;padding:10px;border:1px solid var(--border);border-radius:12px">
+    </div>
+    <div id="roster" class="roster-grid"></div>
   </section>
 
   <!-- HORÁRIOS FIXOS (opcional) -->
@@ -274,7 +292,48 @@
 
   document.getElementById('year').textContent = new Date().getFullYear();
   renderCalendar();
+  // ====== ROSTER (categorias e atletas) ======
+  const ROSTER = {
+    "Sub-10": ["Isabela","Antonella","Heleninha","Helena Brusamoli","Helena Man","Lívia","Júlia","Emanuelly"],
+    "Sub-12": ["Guilherme","Welinton","Breno","Arthur","Mariana","Beatriz","Nina"],
+    "Sub-14 Feminino": ["Helô","Rafa","Manu","Yasmin","Anne","Alana"],
+    "Sub-14 Masculino": ["Enrico","João","Raul"],
+    "Sub-16 Masculino": ["Davi","João Guilherme","Rafael"],
+    "Sub-16 Feminino": ["Isabella","Yasmin","Giovanna","Naomi"],
+    "Sub-18 Masculino": ["Lorenzo"]
+  };
+
+  const rosterRoot = document.getElementById('roster');
+  const buscar = document.getElementById('buscar');
+
+  function drawRoster(data){
+    if(!rosterRoot) return;
+    rosterRoot.innerHTML = '';
+    Object.entries(data).forEach(([cat,names])=>{
+      const card = document.createElement('div'); card.className='card';
+      const h3 = document.createElement('h3'); h3.textContent = cat; card.appendChild(h3);
+      const ul = document.createElement('ul');
+      names.forEach(n=>{ const li=document.createElement('li'); li.textContent=n; ul.appendChild(li); });
+      card.appendChild(ul);
+      rosterRoot.appendChild(card);
+    });
+  }
+  drawRoster(ROSTER);
+
+  if(buscar){
+    buscar.addEventListener('input', ()=>{
+      const q = buscar.value.trim().toLowerCase();
+      if(!q){ drawRoster(ROSTER); return; }
+      const out = {};
+      Object.entries(ROSTER).forEach(([cat,names])=>{
+        const list = names.filter(n=> n.toLowerCase().includes(q));
+        if(list.length) out[cat] = list;
+      });
+      drawRoster(out);
+    });
+  }
 </script>
 </body>
 </html>
+
 
