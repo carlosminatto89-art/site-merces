@@ -149,10 +149,10 @@
 
   // 1) GALERIA — adicione/edite fotos (arquivo deve estar em /fotos)
   const PHOTOS = [
-    { src: 'fotos/sub10-sub12.jpg', alt: 'Sub-10 / Sub-12' },
-    { src: 'fotos/feminino-master.jpg', alt: 'Grupo feminino / Master' },
-    { src: 'fotos/adulto-masculino.jpg', alt: 'Adulto Masculino – pódio' },
-    // { src: 'fotos/nova-foto.jpg', alt: 'Descrição da foto' },
+    { alt: 'Sub-10 / Sub-12', candidates: ['fotos/sub10-sub12.png','fotos/sub10-sub12.jpg','fotos/Foto 10 e 12.png'] },
+    { alt: 'Grupo feminino / Master', candidates: ['fotos/feminino-master.png','fotos/feminino-master.jpg','fotos/foto master.png'] },
+    { alt: 'Adulto Masculino – pódio', candidates: ['fotos/adulto-masculino.png','fotos/adulto-masculino.jpg','fotos/Masculino adulto foto.png'] },
+    // Para adicionar mais: { alt: 'Descrição', candidates: ['fotos/nome.png','fotos/nome.jpg'] },
   ];
 
   // 2) EVENTOS — liste aqui (data no formato AAAA-MM-DD)
@@ -229,19 +229,38 @@
   const lbImg = document.getElementById('lightImg');
   const lbCap = document.getElementById('lightCap');
 
-  PHOTOS.forEach(p => {
+  function buildPhotoFigure(entry){
     const fig = document.createElement('figure');
     const img = document.createElement('img');
     img.loading = 'lazy';
-    img.src = p.src; img.alt = p.alt || '';
+    img.alt = entry.alt || '';
+
+    let idx = 0;
+    const tryNext = () => {
+      if(!entry.candidates || !entry.candidates.length || idx >= entry.candidates.length){
+        img.style.display='none';
+        const ph = document.createElement('div'); ph.textContent = 'Foto não encontrada'; ph.style.padding='16px'; ph.style.textAlign='center'; ph.style.color='var(--muted)';
+        fig.prepend(ph);
+        return;
+      }
+      img.src = entry.candidates[idx++];
+    };
+
+    img.onerror = tryNext;
     img.addEventListener('click', () => {
-      lbImg.src = p.src; lbImg.alt = p.alt || '';
-      lbCap.textContent = p.alt || '';
+      if(!img.src) return;
+      lbImg.src = img.src; lbImg.alt = entry.alt || '';
+      lbCap.textContent = entry.alt || '';
       lb.classList.add('open');
     });
-    const cap = document.createElement('figcaption'); cap.textContent = p.alt || '';
-    fig.appendChild(img); fig.appendChild(cap); gallery.appendChild(fig);
-  });
+
+    const cap = document.createElement('figcaption'); cap.textContent = entry.alt || '';
+    fig.appendChild(img); fig.appendChild(cap);
+    tryNext();
+    return fig;
+  }
+
+  PHOTOS.forEach(p => { gallery.appendChild(buildPhotoFigure(p)); });
 
   // ====== CALENDÁRIO ======
   const cal = document.getElementById('cal');
