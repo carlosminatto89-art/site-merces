@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <meta property="og:image" content="logo.png">
   <title>Clube Mercês • Punhobol</title>
   <style>
     :root{--border:#e5e7eb;--text:#0a0a0a;--muted:#6b7280;--bg:#fafafa}
@@ -22,6 +25,11 @@
     .muted{color:var(--muted)}
     table{width:100%;border-collapse:collapse;font-size:14px}
     th,td{border:1px solid var(--border);padding:8px;text-align:left}
+
+    /* Logo badges */
+    .sec-title{display:flex;align-items:center;gap:10px}
+    .sec-logo{height:20px;width:auto;border-radius:6px}
+    .foot-logo{height:18px;width:auto;border-radius:4px;vertical-align:middle;margin-right:6px}
 
     /* Roster */
     .roster-grid{display:grid;gap:14px}
@@ -82,7 +90,7 @@
 
   <!-- CALENDÁRIO -->
   <section id="calendario">
-    <h2>Calendário</h2>
+    <h2 class="sec-title"><img src="logo.png" class="sec-logo" alt="" onerror="this.style.display='none'"> <span>Calendário<\/span><\/h2>
     <div class="cal-head">
       <button class="btn" id="prev">← mês anterior</button>
       <div><strong id="monthLabel">Mês</strong></div>
@@ -100,13 +108,13 @@
 
   <!-- GALERIA -->
   <section id="fotos">
-    <h2>Fotos do time</h2>
+    <h2 class="sec-title"><img src="logo.png" class="sec-logo" alt="" onerror="this.style.display='none'"> <span>Fotos do time<\/span><\/h2>
     <div class="gallery" id="gallery"></div>
   </section>
 
   <!-- CATEGORIAS E ELENCO -->
   <section id="categorias">
-    <h2>Categorias e elenco</h2>
+    <h2 class="sec-title"><img src="logo.png" class="sec-logo" alt="" onerror="this.style.display='none'"> <span>Categorias e elenco<\/span><\/h2>
     <div style="margin:8px 0 14px">
       <input id="buscar" placeholder="Buscar atleta..." style="width:100%;padding:10px;border:1px solid var(--border);border-radius:12px">
     </div>
@@ -115,7 +123,7 @@
 
   <!-- HORÁRIOS FIXOS (opcional) -->
   <section id="horarios">
-    <h2>Horários e locais</h2>
+    <h2 class="sec-title"><img src="logo.png" class="sec-logo" alt="" onerror="this.style.display='none'"> <span>Horários e locais<\/span><\/h2>
     <table>
       <thead><tr><th>Dia</th><th>Horário</th><th>Local</th><th>Foco</th></tr></thead>
       <tbody>
@@ -127,13 +135,13 @@
   </section>
 
   <section id="contato">
-    <h2>Contato</h2>
+    <h2 class="sec-title"><img src="logo.png" class="sec-logo" alt="" onerror="this.style.display='none'"> <span>Contato<\/span><\/h2>
     <p><a class="btn" href="https://wa.me/4367762304337?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Punhobol%20do%20Clube%20Merc%C3%AAs." target="_blank" rel="noreferrer">Chamar no WhatsApp</a></p>
   </section>
 </main>
 
 <footer style="border-top:1px solid var(--border);margin-top:20px">
-  <div class="wrap" style="padding:16px 0;color:var(--muted)">© <span id="year"></span> Clube Mercês – Punhobol</div>
+  <div class="wrap" style="padding:16px 0;color:var(--muted)"><img src="logo.png" alt="" class="foot-logo" onerror="this.style.display='none'"> © <span id="year"></span> Clube Mercês – Punhobol</div>
 </footer>
 
 <!-- Lightbox -->
